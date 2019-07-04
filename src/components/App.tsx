@@ -11,10 +11,6 @@ interface AppProps
 
 class _App extends React.Component<AppProps>
 {
-    // componentDidMount(): void {
-    //     this.props.fetchTodos();
-    // }
-
     onButtonClick = (): void => {
         this.props.fetchTodos();
     };
@@ -26,7 +22,6 @@ class _App extends React.Component<AppProps>
     }
 
     render() {
-        // console.log(this.props.todos);
         return (
             <div>
                 <button onClick={this.onButtonClick}>Fetch</button>
