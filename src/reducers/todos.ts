@@ -1,4 +1,4 @@
-import { ActionTypes } from '../types';
+import { ActionTypes } from '../actions/types';
 import { FetchTodosAction, Todo } from '../actions';
 
 export const todosReducer = (
