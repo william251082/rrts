@@ -10,23 +10,44 @@ interface AppProps
     deleteTodo: typeof deleteTodo;
 }
 
-class _App extends React.Component<AppProps>
+interface AppState
 {
+    fetching: boolean;
+}
+
+class _App extends React.Component<AppProps, AppState>
+{
+    state = { fetching: false };
+
+    constructor(props: AppProps) {
+        super(props);
+
+        this.state = { fetching: false }
+    }
+
+    componentDidUpdate(prevProps: AppProps): void {
+        if (!prevProps.todos.length && this.props.todos.length) {
+            this.setState({ fetching: false });
+        }
+    }
+
     onButtonClick = (): void => {
         this.props.fetchTodos();
+        this.setState({ fetching: true });
     };
 
     renderList(): JSX.Element[] {
         return this.props.todos.map((todo: Todo) => {
-           return <div key={todo.id}>{todo.title}</div>
+            return <div key={ todo.id }>{ todo.title }</div>
         });
     }
 
     render() {
         return (
             <div>
-                <button onClick={this.onButtonClick}>Fetch</button>
-                {this.renderList()}
+                <button onClick={ this.onButtonClick }>Fetch</button>
+                { this.state.fetching ? 'LOADING' : null }
+                { this.renderList() }
             </div>
         );
     }
@@ -35,7 +56,6 @@ class _App extends React.Component<AppProps>
 const mapStateToProps = ({ todos }: StoreState): { todos: Todo[] } => {
     return { todos };
 };
-
 
 export const App = connect(
     mapStateToProps,
